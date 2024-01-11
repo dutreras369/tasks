@@ -34,3 +34,6 @@ function validarEmail(email) {
   // Verificamos que la cadena no esté vacía y cumpla con el formato
   return email !== "" && regex.test(email);
 }
+
+document.querySelectorAll('input[name="chk"]:checked');
+
