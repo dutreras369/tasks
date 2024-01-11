@@ -1,0 +1,5 @@
+  // Expresión regular para validar el formato del correo electrónico
+  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  // Verificamos que la cadena no esté vacía y cumpla con el formato
+  return email !== "" && regex.test(email);
