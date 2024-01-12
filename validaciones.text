@@ -37,3 +37,4 @@ function validarEmail(email) {
 
 document.querySelectorAll('input[name="chk"]:checked');
 
+ELECT idreserva, nombre, nombremascota, fecha, idhorario, recordatorio, descripcion FROM public.reserva;"
