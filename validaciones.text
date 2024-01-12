@@ -37,4 +37,6 @@ function validarEmail(email) {
 
 document.querySelectorAll('input[name="chk"]:checked');
 
-ELECT idreserva, nombre, nombremascota, fecha, idhorario, recordatorio, descripcion FROM public.reserva;"
+SELECT r.idreserva, r.nombre, r.nombremascota, r.fecha, r.idhorario, r.recordatorio, h.campo1, h.campo2, ...
+FROM public.reserva r
+LEFT JOIN public.horario h ON r.idhorario = h.idhorario;
