@@ -57,3 +57,10 @@ SELECT r.idreserva, r.nombre, r.nombremascota, r.fecha, r.idhorario, r.recordato
             }
         }
     </script>
+
+
+     if (isNaN(inputValue) || inputValue < 0) {
+                alert("Por favor, ingrese un número positivo.");
+                // Puedes limpiar el campo o tomar otra acción según tus necesidades
+                inputField.value = "";
+            }
