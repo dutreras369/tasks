@@ -125,3 +125,6 @@ CONTEXT:  PL/pgSQL function "fn_insertar_maraton" line 7 at IF
 
 ALTER TABLE maraton
 ADD COLUMN nueva_columna INTEGER;
+
+ALTER TABLE tu_tabla
+ALTER COLUMN fecha SET DEFAULT CURRENT_TIMESTAMP;
