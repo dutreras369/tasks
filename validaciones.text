@@ -38,3 +38,22 @@ function validarEmail(email) {
 document.querySelectorAll('input[name="chk"]:checked');
 SELECT r.idreserva, r.nombre, r.nombremascota, r.fecha, r.idhorario, r.recordatorio, h.descripcion FROM public.reserva
         LEFT JOIN public.horario h ON r.idhorario = h.idhorario;
+
+
+        <label for="quantity">Ingrese un número (0-100):</label>
+    <input type="number" id="quantity" name="quantity" min="0" max="100" pattern="[0-9]+" title="Ingrese un número válido">
+
+    <button onclick="validateInput()">Validar</button>
+
+    <script>
+        function validateInput() {
+            var inputField = document.getElementById("quantity");
+            var value = inputField.value;
+
+            if (value < 0 || value > 100) {
+                alert("Por favor, ingrese un número entre 0 y 100.");
+            } else {
+                alert("Número válido: " + value);
+            }
+        }
+    </script>
