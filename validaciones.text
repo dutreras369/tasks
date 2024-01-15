@@ -64,3 +64,8 @@ SELECT r.idreserva, r.nombre, r.nombremascota, r.fecha, r.idhorario, r.recordato
                 // Puedes limpiar el campo o tomar otra acción según tus necesidades
                 inputField.value = "";
             }
+
+LINE 1: SELECT COUNT(*)               FROM maraton WHERE nombre = _n...
+                                           ^
+QUERY:  SELECT COUNT(*)               FROM maraton WHERE nombre = _nombre AND idatleta = _idatleta
+CONTEXT:  PL/pgSQL function "fn_insertar_maraton" line 16 at sentencia SQL    
