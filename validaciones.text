@@ -69,3 +69,17 @@ LINE 1: SELECT COUNT(*)               FROM maraton WHERE nombre = _n...
                                            ^
 QUERY:  SELECT COUNT(*)               FROM maraton WHERE nombre = _nombre AND idatleta = _idatleta
 CONTEXT:  PL/pgSQL function "fn_insertar_maraton" line 16 at sentencia SQL    
+
+
+CREATE OR REPLACE FUNCTION fn_insertar_maraton(_nombre text, _idatleta integer)
+RETURNS void AS $$
+BEGIN
+  -- Verifica si la combinación de nombre e idatleta ya existe
+  IF EXISTS (SELECT 1 FROM maraton WHERE nombre = _nombre AND idatleta = _idatleta) THEN
+    RAISE EXCEPTION 'Entrada duplicada para nombre=% e idatleta=%', _nombre, _idatleta;
+  END IF;
+
+  -- Tu lógica adicional para insertar el registro de maratón va aquí
+
+END;
+$$ LANGUAGE plpgsql;
