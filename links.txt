@@ -1,1 +1,5 @@
 
+Material de estilos
+• Font-family: Verdana, Geneva,Tahoma,sans-serif
+• background-color del título: rgb(6,103,182)
+• background-color de la cabecera de la grilla: rgb(152,189,245)
