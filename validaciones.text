@@ -121,3 +121,7 @@ LINE 1: SELECT EXISTS (SELECT 1 FROM maraton WHERE nombre = _nombre ...
                                      ^
 QUERY:  SELECT EXISTS (SELECT 1 FROM maraton WHERE nombre = _nombre AND idatleta = _idatleta)
 CONTEXT:  PL/pgSQL function "fn_insertar_maraton" line 7 at IF
+
+
+ALTER TABLE maraton
+ADD COLUMN nueva_columna INTEGER;
