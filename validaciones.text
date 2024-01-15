@@ -70,36 +70,48 @@ LINE 1: SELECT COUNT(*)               FROM maraton WHERE nombre = _n...
 QUERY:  SELECT COUNT(*)               FROM maraton WHERE nombre = _nombre AND idatleta = _idatleta
 CONTEXT:  PL/pgSQL function "fn_insertar_maraton" line 16 at sentencia SQL    
 
- CREATE FUNCTION prueba.fn_insertar_maraton(integer,varchar,varchar, integer, integer, integer)
- RETURNS VARCHAR AS 
-    $body$
-      DECLARE
-      	_idmaraton	 		ALIAS 		FOR $1;
-      	_nombre				ALIAS 		FOR $2;
-        _descripcion 		ALIAS 		FOR $3;
-        _tiempocarrera		ALIAS 		FOR $4;
-        _idatleta	 		ALIAS 		FOR $5;
-        _porcentajeavance	ALIAS 		FOR $6;
-        
-        BEGIN
-          /* _idmaraton si es igual a 0 debemos agregar id automaticamente */
-          IF _idmaraton = 0 THEN
-          	IF EXISTS (SELECT 1 FROM maraton WHERE nombre = _nombre AND idatleta = _idatleta) THEN
-    			RAISE EXCEPTION 'Entrada duplicada para nombre=% e idatleta=%', _nombre, _idatleta;
-            END IF;
-	     ELSE
-			INSERT INTO maraton(nombre, descripcion, tiempocarrera, idatleta, porcentajeavance) VALUES(_nombre, _descripcion, _tiempocarrera,_idatleta, _porcentajeavance);
-                RETURN 'Insertado correctamente';  
-             END IF;         
-          ELSE
-              SELECT COUNT(*) INTO __existe FROM maraton WHERE nombre = _nombre AND idatleta = _idatleta AND idmaraton NOT IN (_idmaraton);
-              IF __existe <> 0 THEN
-                RAISE EXCEPTION 'Los campos agregados ya existen'; 
-              ELSE
-              	UPDATE maraton SET nombre = _nombre, descripcion = _descripcion, tiempocarrera = _tiempocarrera, tiempocarrera = _tiempocarrera, idatleta = _idatleta, porcentajeavance = _porcentajeavance WHERE idmaraton = _idmaraton;
-                RETURN 'Actualizado correctamente'; 
-              END IF;
-          END IF;
-      END;
-	$body$
-LANGUAGE 'plpgsql';
+CREATE OR REPLACE FUNCTION prueba.fn_insertar_maraton(
+    IN _idmaraton integer,
+    IN _nombre varchar,
+    IN _descripcion varchar,
+    IN _tiempocarrera integer,
+    IN _idatleta integer,
+    IN _porcentajeavance integer
+)
+RETURNS VARCHAR AS 
+$body$
+DECLARE
+    __existe integer;
+BEGIN
+    -- Si _idmaraton es igual a 0, debemos agregar un nuevo id automáticamente
+    IF _idmaraton = 0 THEN
+        -- Verificar si ya existe una entrada con el mismo nombre e idatleta
+        IF EXISTS (SELECT 1 FROM maraton WHERE nombre = _nombre AND idatleta = _idatleta) THEN
+            RAISE EXCEPTION 'Entrada duplicada para nombre=% e idatleta=%', _nombre, _idatleta;
+        ELSE
+            -- Insertar nuevo registro
+            INSERT INTO maraton(nombre, descripcion, tiempocarrera, idatleta, porcentajeavance)
+            VALUES (_nombre, _descripcion, _tiempocarrera, _idatleta, _porcentajeavance);
+            RETURN 'Insertado correctamente';  
+        END IF;
+    ELSE
+        -- Si _idmaraton no es igual a 0, actualizar el registro existente
+        SELECT COUNT(*) INTO __existe
+        FROM maraton
+        WHERE nombre = _nombre AND idatleta = _idatleta AND idmaraton <> _idmaraton;
+
+        IF __existe <> 0 THEN
+            RAISE EXCEPTION 'Los campos agregados ya existen';
+        ELSE
+            -- Actualizar el registro existente
+            UPDATE maraton
+            SET nombre = _nombre, descripcion = _descripcion, tiempocarrera = _tiempocarrera,
+                idatleta = _idatleta, porcentajeavance = _porcentajeavance
+            WHERE idmaraton = _idmaraton;
+            
+            RETURN 'Actualizado correctamente'; 
+        END IF;
+    END IF;
+END;
+$body$
+LANGUAGE plpgsql;
